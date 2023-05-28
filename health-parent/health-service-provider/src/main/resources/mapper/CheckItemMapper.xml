@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lh.dao.CheckItemDao">
+    <resultMap id="CheckItem" type="com.lh.pojo.CheckItem">
+        <id property="id" column="id"/>
+        <result property="code" column="code"/>
+        <result column="name" property="name"/>
+        <result property="sex" column="sex"/>
+        <result column="age" property="age"/>
+        <result property="price" column="price"/>
+        <result column="type" property="type"/>
+        <result property="attention" column="attention"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+    <!--新增-->
+    <insert id="add" parameterType="com.lh.pojo.CheckItem">
+        insert into t_checkitem (code,name,sex,age,price,type,attention,remark)
+            values
+        (#{code},#{name},#{sex},#{age},#{price},#{type},#{attention},#{remark})
+    </insert>
+</mapper>
