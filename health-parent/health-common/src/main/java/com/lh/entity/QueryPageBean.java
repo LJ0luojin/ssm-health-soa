@@ -1,4 +1,4 @@
-package com.itheima.entity;
+package com.lh.entity;
 
 import java.io.Serializable;
 
