@@ -19,4 +19,10 @@
             values
         (#{code},#{name},#{sex},#{age},#{price},#{type},#{attention},#{remark})
     </insert>
+    <select id="selectByCondition" resultMap="CheckItem" parameterType="string">
+        select * from t_checkitem
+        <if test="value !=null and value.length > 0">
+            where code like concat('%',#{value},'%') or name like concat('%',#{value},'%')
+        </if>
+    </select>
 </mapper>

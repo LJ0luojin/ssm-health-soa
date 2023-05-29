@@ -2,6 +2,8 @@ package com.lh.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.lh.constant.MessageConstant;
+import com.lh.entity.PageResult;
+import com.lh.entity.QueryPageBean;
 import com.lh.entity.Result;
 import com.lh.pojo.CheckItem;
 import com.lh.service.CheckItemService;
@@ -20,5 +22,13 @@ public class CheckItemController {
             return new Result(false, MessageConstant.ADD_CHECKITEM_FAIL);
         }
         return new Result(true,MessageConstant.ADD_CHECKITEM_SUCCESS);
+    }
+    @PostMapping("findPage")
+    public PageResult findPage(@RequestBody QueryPageBean queryPageBean){
+        PageResult page = checkItemService.findPage(
+                queryPageBean.getCurrentPage(),
+                queryPageBean.getPageSize(),
+                queryPageBean.getQueryString());
+        return page;
     }
 }
