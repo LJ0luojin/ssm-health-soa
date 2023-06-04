@@ -27,7 +27,7 @@
                 <div class="box">
                     <div class="filter-container">
                         <el-input placeholder="项目编码/项目名称" v-model="pagination.queryString" style="width: 200px;" class="filter-item"></el-input>
-                        <el-button @click="findPage()" class="dalfBut">查询</el-button>
+                        <el-button @click="findPageBySth()" class="dalfBut">查询</el-button>
                         <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
                     </div>
                     <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
@@ -230,6 +230,29 @@
             methods: {
                 //编辑
                 handleEdit() {
+                    this.$refs['dataEditForm'].validate((valid)=>{
+                        if(valid){
+                            axios.post('/checkitem/edit',this.formData).then((resp) =>{
+                                if(resp.data.flag){
+                                    this.$message({
+                                        message:resp.data.message,
+                                        type:'success'
+                                    })
+
+                                }else{
+                                    this.$message.error(resp.data.message)
+                                }
+                            }).finally(()=>{
+                                this.findPage();
+                                this.resetForm()
+                                this.dialogFormVisible4Edit = false
+                            })
+                        }else{
+                            //表单校验失败
+                            this.$message.error("表单数据校验失败");
+                            return false;
+                        }
+                    })
                 },
                 //添加
                 handleAdd () {
@@ -276,6 +299,10 @@
                         this.pagination.total = response.data.total;
                     });
                 },
+                findPageBySth(){
+                    this.pagination.currentPage = 1;
+                    this.findPage()
+                },
                 // 重置表单
                 resetForm() {
                     this.formData = {};
@@ -287,6 +314,23 @@
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
+                    axios.get('/checkitem/findById?id='+row.id).then((resp)=> {
+                        var tempform = {
+                            id:       resp.data.data.id,
+                            code:     resp.data.data.code,
+                            name:     resp.data.data.name,
+                            age:      resp.data.data.age,
+                            price:    resp.data.data.price,
+                            attention:resp.data.data.attention,
+                            remark:   resp.data.data.remark,
+                            sex:      resp.data.data.sex,
+                            type:     resp.data.data.type
+                        }
+
+                        this.formData = tempform;
+                        console.log(this.formData.id)
+                    })
+                    this.dialogFormVisible4Edit = true;
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
@@ -296,6 +340,24 @@
                 },
                 // 删除
                 handleDelete(row) {
+                    // alert(row.id);
+                    this.$confirm("确认删除吗？","提示",{type:'warning'}).then(()=>{
+                        // this.$message.success("操作成功！")
+                        axios.get('/checkitem/delete?id='+row.id).then((resp=>{
+                                if(resp.data.flag){
+                                    this.$message({
+                                        message: resp.data.message,
+                                        type:'success'
+                                    });
+                                    //调用分页，获取最新分页数据
+                                    this.findPage();
+                                }else {
+                                    this.$message.error(resp.data.message)
+                                }
+                        }))
+                    }).catch(()=>{
+                       this.$message.info("操作取消")
+                    })
                 }
             }
         })

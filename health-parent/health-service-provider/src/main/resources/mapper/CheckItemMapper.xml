@@ -19,10 +19,27 @@
             values
         (#{code},#{name},#{sex},#{age},#{price},#{type},#{attention},#{remark})
     </insert>
+    <update id="edit" parameterType="com.lh.pojo.CheckItem">
+        update t_checkitem set code = #{code},name = #{name},sex = #{sex},age = #{age},price = #{price},
+                               type = #{type},attention = #{attention},remark = #{remark}
+                            where id = #{id}
+    </update>
+    <delete id="deleteById">
+        delete from t_checkitem where id = #{id}
+    </delete>
     <select id="selectByCondition" resultMap="CheckItem" parameterType="string">
         select * from t_checkitem
         <if test="value !=null and value.length > 0">
             where code like concat('%',#{value},'%') or name like concat('%',#{value},'%')
         </if>
+    </select>
+    <select id="findCountByCheckItemId" resultType="java.lang.Long" parameterType="integer">
+        select count(*) from t_checkgroup_checkitem where checkitem_id = #{id}
+    </select>
+    <select id="findById" resultMap="CheckItem" parameterType="integer">
+        select * from t_checkitem where id = #{id}
+    </select>
+    <select id="findAll" resultType="com.lh.pojo.CheckItem">
+        select * from t_checkitem
     </select>
 </mapper>

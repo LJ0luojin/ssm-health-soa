@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lh.dao.SetmealDao">
+    <resultMap id="setmeal" type="com.lh.pojo.Setmeal">
+        <id property="id" column="id"/>
+        <result property="sex" column="sex"/>
+        <result property="remark" column="remark"/>
+        <result property="attention" column="attention"/>
+        <result property="helpCode" column="helpCode"/>
+        <result property="name" column="name"/>
+        <result property="price" column="price"/>
+        <result property="code" column="code"/>
+        <result property="age" column="age"/>
+        <result property="img" column="img"/>
+    </resultMap>
+
+    <insert id="addSetmeal" parameterType="com.lh.pojo.Setmeal">
+        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_setmeal (name,code,helpCode,sex,age,price,remark,attention,img)
+        values (#{name},#{code},#{helpCode},#{sex},#{age},#{price},#{remark},#{attention},#{img})
+    </insert>
+
+    <insert id="setSetmealAndCheckgroup" parameterType="map">
+        insert into t_setmeal_checkgroup (setmeal_id,checkgroup_id) values (#{setmeal_id},#{checkgroup_id})
+    </insert>
+    <select id="findPage" resultType="com.lh.pojo.Setmeal" parameterType="string">
+        select * from t_setmeal
+            <if test="value != null and value.length >0">
+                where name like concat('%',#{value},'%') or code like concat('%',#{value},'%') or helpCode like concat('%',#{value},'%')
+            </if>
+    </select>
+</mapper>

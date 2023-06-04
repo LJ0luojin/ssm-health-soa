@@ -31,4 +31,22 @@ public class CheckItemController {
                 queryPageBean.getQueryString());
         return page;
     }
+    @GetMapping("/findAll")
+    public Result findAll(){
+        return checkItemService.findAll();
+    }
+    @GetMapping("delete")
+    public Result deleteCheckItem(@RequestParam("id") Integer id){
+        return checkItemService.deleteById(id);
+    }
+
+    @GetMapping("findById")
+    public Result findById(@RequestParam("id") Integer id){
+        return checkItemService.findById(id);
+    }
+
+    @PostMapping("edit")
+    public Result edit(@RequestBody CheckItem checkItem){
+        return checkItemService.edit(checkItem);
+    }
 }

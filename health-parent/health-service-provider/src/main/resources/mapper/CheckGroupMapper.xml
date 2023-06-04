@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lh.dao.CheckGroupDao">
+    <resultMap id="checkGroup" type="com.lh.pojo.CheckGroup">
+        <id property="id" column="id"/>
+        <result column="code" property="code"/>
+        <result property="name" column="name"/>
+        <result property="helpCode" column="helpCode"/>
+        <result property="attention" column="attention"/>
+        <result property="remark" column="remark"/>
+        <result property="sex" column="sex"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.lh.pojo.CheckGroup">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into t_checkgroup (code,name,helpCode,sex,remark,attention)
+        values (#{code},#{name},#{helpCode},#{sex},#{remark},#{attention})
+    </insert>
+
+    <insert id="setCheckGroupAndCheckItem" parameterType="hashmap">
+        insert into t_checkgroup_checkitem (checkgroup_id,checkitem_id)
+        values (#{checkgroup_id},#{checkitem_id})
+    </insert>
+
+    <update id="edit" parameterType="com.lh.pojo.CheckGroup">
+        update t_checkgroup
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="helpCode != null">
+                helpCode = #{helpCode},
+            </if>
+            <if test="attention != null">
+                attention = #{attention},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssociation">
+        delete from t_checkgroup_checkitem where checkgroup_id = #{id}
+    </delete>
+
+    <delete id="delelteCheckGroupById">
+        delete from t_checkgroup where id = #{id}
+    </delete>
+
+    <select id="selectByCondition" resultMap="checkGroup" parameterType="string" >
+        select * from t_checkgroup
+            <if test="value != null and value.length > 0">
+                where code like concat('%',#{value},'%') or name like concat('%',#{value},'%') or helpCode like concat('%',#{value},'%')
+            </if>
+    </select>
+
+    <select id="findById" resultMap="checkGroup" parameterType="integer">
+        select * from t_checkgroup where id = #{checkgroupId}
+    </select>
+
+    <select id="findCheckItemIdsByCheckGroupId" resultType="java.lang.Integer" parameterType="integer">
+        select checkitem_id from t_checkgroup_checkitem where checkgroup_id = #{checkgroupId}
+    </select>
+    <select id="findAll" resultMap="checkGroup">
+        select * from t_checkgroup
+    </select>
+
+</mapper>
