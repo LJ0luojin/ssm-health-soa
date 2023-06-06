@@ -10,6 +10,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/health-parent/pom.xml" />
+        <option value="$PROJECT_DIR$/jobdemo/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
