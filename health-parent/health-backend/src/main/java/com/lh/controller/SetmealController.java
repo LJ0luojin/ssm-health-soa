@@ -63,4 +63,5 @@ public class SetmealController {
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean){
         return setmealService.findPage(queryPageBean);
     }
+
 }

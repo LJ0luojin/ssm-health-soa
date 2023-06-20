@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lh.dao.OrderSettingDao">
+    
+    <resultMap id="orderSetting" type="com.lh.pojo.OrderSetting">
+        <id column="id" property="id"/>
+        <id property="number" column="number"/>
+        <id property="orderDate" column="orderDate"/>
+        <id property="reservations" column="reservations"/>
+    </resultMap>
+    
+    <insert id="add" parameterType="com.lh.pojo.OrderSetting">
+        insert into t_ordersetting (orderDate,number,reservations)
+            values (#{orderDate},#{number},#{reservations})
+    </insert>
+    <update id="update" parameterType="com.lh.pojo.OrderSetting">
+        update t_ordersetting set number = #{number} where orderDate = #{orderDate}
+    </update>
+    <select id="findOrderSettingByDate" resultType="long" parameterType="java.util.Date">
+        select count(*) from t_ordersetting where orderDate = #{date}
+    </select>
+    <select id="getOrderSettingByMonth" parameterType="map" resultType="com.lh.pojo.OrderSetting">
+        select * from t_ordersetting where orderDate like concat(#{date},'%')
+    </select>
+    <select id="findOrderSettingByDate2" parameterType="com.lh.pojo.OrderSetting" resultType="integer">
+        select number from t_ordersetting where orderDate = #{orderDate}
+    </select>
+
+</mapper>

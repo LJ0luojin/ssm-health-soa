@@ -22,7 +22,7 @@
         <property name="username" value="root" />
         <property name="password" value="liuhuan123" />
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/health?useUnicode=true&amp;characterEncoding=UTF8&amp;useSSL=false&amp;serverTimezone=UTC"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/health?useUnicode=true&amp;characterEncoding=UTF8&amp;allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai"/>
     </bean>
     <!--spring和mybatis整合的工厂bean-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

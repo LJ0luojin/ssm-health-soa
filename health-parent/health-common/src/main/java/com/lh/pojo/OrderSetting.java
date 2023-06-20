@@ -1,7 +1,8 @@
 package com.lh.pojo;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.sql.Date;
 
 /**
  * 预约设置
@@ -12,6 +13,8 @@ public class OrderSetting implements Serializable{
     private int number;//可预约人数
     private int reservations ;//已预约人数
 
+    private Integer date;//当前月的第几天
+
     public OrderSetting() {
     }
 
@@ -20,6 +23,11 @@ public class OrderSetting implements Serializable{
         this.number = number;
     }
 
+    public Integer getDate(){
+        String dateString = new SimpleDateFormat("dd").format(orderDate);
+        this.date = Integer.valueOf(dateString);
+        return date;
+    }
     public Integer getId() {
         return id;
     }
