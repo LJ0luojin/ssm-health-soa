@@ -5,16 +5,20 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.lh.constant.MessageConstant;
 import com.lh.constant.RedisConstant;
+import com.lh.dao.CheckGroupDao;
 import com.lh.dao.SetmealDao;
 import com.lh.entity.PageResult;
 import com.lh.entity.QueryPageBean;
 import com.lh.entity.Result;
+import com.lh.pojo.CheckGroup;
 import com.lh.pojo.Setmeal;
 import com.lh.service.SetmealService;
 import redis.clients.jedis.JedisPool;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -23,6 +27,8 @@ public class SetmealServiceImpl implements SetmealService {
     JedisPool jedisPool;
     @Resource
     SetmealDao setmealDao;
+    @Resource
+    CheckGroupDao checkGroupDao;
     @Override
     public Result addSetmeal(Setmeal setmeal, Integer[] checkgroupIds) {
         try{
@@ -41,6 +47,17 @@ public class SetmealServiceImpl implements SetmealService {
         PageHelper.startPage(queryPageBean.getCurrentPage(),queryPageBean.getPageSize());
         Page<Setmeal> list = setmealDao.findPage(queryPageBean.getQueryString());
         return new PageResult(list.getTotal(),list.getResult());
+    }
+
+    @Override
+    public List<Setmeal> getAll() {
+        return setmealDao.getAll();
+    }
+
+    @Override
+    public Setmeal findById(Integer id) {
+        Setmeal result = setmealDao.findById(id);
+        return result;
     }
 
     public  void setSetmealAndCheckgroup(Integer setmealId,Integer[] checkgroupIds){

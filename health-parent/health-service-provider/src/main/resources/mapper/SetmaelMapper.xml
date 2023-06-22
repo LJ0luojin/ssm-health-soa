@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lh.dao.SetmealDao">
-    <resultMap id="setmeal" type="com.lh.pojo.Setmeal">
+    <resultMap id="baseSetmeal" type="com.lh.pojo.Setmeal">
         <id property="id" column="id"/>
         <result property="sex" column="sex"/>
         <result property="remark" column="remark"/>
@@ -13,6 +13,17 @@
         <result property="code" column="code"/>
         <result property="age" column="age"/>
         <result property="img" column="img"/>
+    </resultMap>
+
+    <resultMap id="Setmeal"
+               type="com.lh.pojo.Setmeal"
+               extends="baseSetmeal">
+        <collection property="checkGroups"
+                    ofType="com.lh.pojo.CheckGroup"
+                    column="id"
+                    select="com.lh.dao.CheckGroupDao.findCheckGruopBySetmealId"
+                    >
+        </collection>
     </resultMap>
 
     <insert id="addSetmeal" parameterType="com.lh.pojo.Setmeal">
@@ -31,5 +42,13 @@
             <if test="value != null and value.length >0">
                 where name like concat('%',#{value},'%') or code like concat('%',#{value},'%') or helpCode like concat('%',#{value},'%')
             </if>
+    </select>
+
+    <select id="getAll" resultType="com.lh.pojo.Setmeal">
+        select * from t_setmeal
+    </select>
+
+    <select id="findById" resultMap="Setmeal" parameterType="integer">
+        select * from t_setmeal where id = #{id}
     </select>
 </mapper>
