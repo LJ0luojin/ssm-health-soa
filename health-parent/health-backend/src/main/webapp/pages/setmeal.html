@@ -312,6 +312,8 @@
                 },
                 // 弹出添加窗口
                 handleCreate() {
+                    this.formData.sex="0"
+                    console.log(this.formData)
                     this.resetForm();
                     this.dialogFormVisible = true;
                     axios.post('/checkgroup/findAll').then((resp)=>{
