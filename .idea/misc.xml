@@ -3,6 +3,7 @@
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/health-parent/health-backend" />
+    <file type="web" url="file://$PROJECT_DIR$/health-parent/health-mobile" />
     <file type="web" url="file://$PROJECT_DIR$/health-parent/health-service-provider" />
     <file type="web" url="file://$PROJECT_DIR$/health-parent/health_service_provider" />
   </component>
@@ -10,7 +11,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/health-parent/pom.xml" />
-        <option value="$PROJECT_DIR$/jobdemo/pom.xml" />
+        <option value="$PROJECT_DIR$/health-parent/health-mobile/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

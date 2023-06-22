@@ -10,6 +10,7 @@
     <modules>
         <module>health-common</module>
         <module>health-interface</module>
+        <module>health-mobile</module>
         <module>health-service-provider</module>
         <module>health-backend</module>
     </modules>
