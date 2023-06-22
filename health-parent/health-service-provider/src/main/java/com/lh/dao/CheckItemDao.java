@@ -23,4 +23,6 @@ public interface CheckItemDao {
     int edit(CheckItem checkItem);
 
     List<CheckItem> findAll();
+
+    CheckItem findCheckItemByCheckGroupId(Integer id);
 }

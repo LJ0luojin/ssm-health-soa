@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lh.dao.CheckGroupDao">
-    <resultMap id="checkGroup" type="com.lh.pojo.CheckGroup">
+
+    <resultMap id="baseCheckGroup" type="com.lh.pojo.CheckGroup">
         <id property="id" column="id"/>
         <result column="code" property="code"/>
         <result property="name" column="name"/>
@@ -11,6 +12,14 @@
         <result property="remark" column="remark"/>
         <result property="sex" column="sex"/>
     </resultMap>
+
+    <resultMap id="checkGroup" type="com.lh.pojo.CheckGroup" extends="baseCheckGroup">
+            <collection property="checkItems"
+                        column="id"
+                        ofType="com.lh.pojo.CheckItem"
+                        select="com.lh.dao.CheckItemDao.findCheckItemByCheckGroupId"></collection>
+    </resultMap>
+
 
     <insert id="add" parameterType="com.lh.pojo.CheckGroup">
         <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
@@ -75,5 +84,7 @@
     <select id="findAll" resultMap="checkGroup">
         select * from t_checkgroup
     </select>
-
+    <select id="findCheckGruopBySetmealId" resultMap="checkGroup" parameterType="integer" >
+        select * from t_checkgroup where id in (select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{id})
+    </select>
 </mapper>
