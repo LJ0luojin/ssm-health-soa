@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Component
 public class SetmealServiceImpl implements SetmealService {
     @Resource
     JedisPool jedisPool;

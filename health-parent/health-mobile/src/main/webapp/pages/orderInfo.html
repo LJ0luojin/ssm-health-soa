@@ -33,7 +33,7 @@
             <div class="contentBox">
                 <div class="card">
                     <div class="">
-                        <img :src="'http://pqjroc654.bkt.clouddn.com/'+setmeal.img" width="100%" height="100%" />
+                        <img :src="'http://rvo88suk7.hn-bkt.clouddn.com/'+setmeal.img" width="100%" height="100%" />
                     </div>
                     <div class="project-text">
                         <h4 class="tit">{{setmeal.name}}</h4>
@@ -113,12 +113,57 @@
                 methods:{
                     //发送验证码
                     sendValidateCode(){
+                        //校验手机号是否合法
+                        var telephone = this.orderInfo.telephone;
+                        //校验不通过，直接返回false
+                        if(!checkTelephone(telephone)){
+                            this.$message.error("手机号码不合法，请检查后重写输入")
+                            return false;
+                        };
+                        //校验通过后，按钮状态发生改变
+                        validateCodeButton = $("#validateCodeButton")[0];
+                        clock = window.setInterval(doLoop,1500)
+                        axios.post("/validateCode/send4Order.do?telephone="+telephone).then((resp)=>{
+                            if(resp.data.flag){
+                                this.$message.success("短信发送成功！")
+                            }else{
+                                this.$message.error(resp.data.message)
+                            }
+                        })
+
                     },
                     //提交预约
                     submitOrder(){
+                        //数据校验
+                        var idCard = checkIdCard(this.orderInfo.idCard);
+                        if(this.orderInfo.name==null || this.orderInfo.name == ""
+                            || this.orderInfo.sex==null || this.orderInfo.sex == "" ||
+                            this.orderInfo.validateCode == null || this.orderInfo.validateCode==""
+                            || this.orderInfo.orderDate == null ||this.orderInfo.orderDate == ""
+                            || !idCard
+                        ){
+                            this.$message.error("数据校验错误，请检查后重新填写！");
+                            return false;
+                        }
+                        //发送请求
+                        axios.post("/order/submit.do",this.orderInfo).then((resp)=>{
+                            if(!resp.data.flag){
+                                this.$message.error(resp.data.message);
+                                return false;
+                            }else{
+                                window.location.href="orderSuccess.html?orderId="+resp.data.data;
+                            }
+                        })
                     }
                 },
                 mounted(){
+                    axios.post("/setmeal/findById.do?id=" + id).then((response) => {
+                        if(response.data.flag){
+                            this.setmeal = response.data.data;
+                        }else{
+                            this.$message.error(response.data.message)
+                        }
+                    });
                 }
             });
         </script>
