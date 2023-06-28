@@ -14,7 +14,6 @@ import com.lh.pojo.Setmeal;
 import com.lh.service.SetmealService;
 import com.lh.utils.GenerateStaticHtmlUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import redis.clients.jedis.JedisPool;
 

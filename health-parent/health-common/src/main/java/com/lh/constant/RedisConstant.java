@@ -7,5 +7,8 @@ public class RedisConstant {
     public static final String SETMEAL_PIC_DB_RESOURCES = "setmealPicDbResources";
 
     public static final  String VALIDATECODE_ORDER = "001";
+    public static final  String VALIDATECODE_LOGIN = "002:";
+    public static final  String TOKEN_LOGIN = "003:";
+
 
 }

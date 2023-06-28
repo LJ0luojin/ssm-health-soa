@@ -63,6 +63,7 @@
                 //发送验证码
                 sendValidateCode(){
                     var telephone = this.loginInfo.telephone;
+                    //校验手机号是否正确
                     if (!checkTelephone(telephone)) {
                         this.$message.error('请输入正确的手机号');
                         return false;
@@ -83,10 +84,15 @@
                         this.$message.error('请输入正确的手机号');
                         return false;
                     }
-                    axios.post("/login/check.do",this.loginInfo).then((response) => {
+                    //校验验证码是否为空及长度是否合法
+                    var validateCode = this.loginInfo.validateCode;
+                    if(validateCode==null || validateCode.size!=6){
+                        this.$message.error("请输入正确的验证码")
+                    }
+                    axios.post("/member/login.do",this.loginInfo).then((response) => {
                         if(response.data.flag){
                             //登录成功,跳转到index.html
-                            window.location.href="index.html";
+                            window.location.href="member.html";
                         }else{
                             //失败，提示失败信息
                             this.$message.error(response.data.message);

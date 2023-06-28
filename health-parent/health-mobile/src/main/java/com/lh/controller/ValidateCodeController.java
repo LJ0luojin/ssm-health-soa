@@ -50,4 +50,31 @@ public class ValidateCodeController {
             return new Result(false, MessageConstant.SEND_VALIDATECODE_FAIL);
         }
     }
+
+    @PostMapping("/send4Login")
+    public Result send4Login(@RequestParam("telephone") String telephone){
+        try{
+            String mobileRegEx = "^1[3,4,5,6,7,8,9][0-9]{9}$";
+            //校验手机号
+            Pattern pattern = Pattern.compile(mobileRegEx);//函数语法 匹配的正则表达式
+            Matcher matcher = pattern.matcher(telephone);//进行匹配
+            if(!matcher.matches()){
+                return new Result(false,"您输入的手机号不合法，请检查后重新输入!");
+            }
+            //发送短信（生成随机验证码，调用短信接口，将验证码存入redis）
+            //生成验证码
+            String validateCode = String.valueOf(ValidateCodeUtils.generateValidateCode(6));
+            //调用短信接口
+            System.out.println(validateCode);
+//            SMSUtils.sendShortMessage(SMSUtils.VALIDATE_CODE,telephone,validateCode);
+            //将验证码存入redis
+            Jedis jedis = jedisPool.getResource();
+            jedis.setex(RedisConstant.VALIDATECODE_LOGIN+telephone,300,validateCode);
+            return new Result(true,MessageConstant.SEND_VALIDATECODE_SUCCESS);
+        }catch (Exception e){
+            //logger.error
+            e.printStackTrace();
+            return new Result(false, MessageConstant.SEND_VALIDATECODE_FAIL);
+        }
+    }
 }
