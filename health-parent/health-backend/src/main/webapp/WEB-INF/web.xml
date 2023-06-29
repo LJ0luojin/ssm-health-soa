@@ -3,10 +3,12 @@
         "http://java.sun.com/dtd/web-app_2_3.dtd">
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+
   <!-- 解决post乱码 -->
   <filter>
     <filter-name>CharacterEncodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+
     <init-param>
       <param-name>encoding</param-name>
       <param-value>utf-8</param-value>
@@ -16,9 +18,24 @@
       <param-value>true</param-value>
     </init-param>
   </filter>
+<!-- 使用spring security-->
+  <filter>
+    <!--
+      DelegatingFilterProxy用于整合第三方框架
+      整合Spring Security时过滤器的名称必须为springSecurityFilterChain，
+      否则会抛出NoSuchBeanDefinitionException异常
+    -->
+    <filter-name>springSecurityFilterChain</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
 
   <filter-mapping>
     <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>springSecurityFilterChain</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
   <servlet>
