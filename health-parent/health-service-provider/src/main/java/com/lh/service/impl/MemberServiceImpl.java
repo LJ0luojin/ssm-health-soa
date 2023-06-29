@@ -22,4 +22,9 @@ public class MemberServiceImpl implements MemberService {
     public void add(Member member) {
         memberDao.add(member);
     }
+
+    @Override
+    public int countByRegTime(String regDate) {
+        return memberDao.countByRegTime(regDate);
+    }
 }
