@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.lh.constant.MessageConstant;
 import com.lh.entity.Result;
 import com.lh.service.MemberService;
+import com.lh.service.SetmealService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,8 @@ import java.util.*;
 public class ReportController {
     @Reference
     MemberService memberService;
+    @Reference
+    SetmealService setmealService;
     @GetMapping("/getMemberReport")
     public Result getMemberReport(){
         Calendar date= Calendar.getInstance();
@@ -38,6 +41,23 @@ public class ReportController {
         data.put("months",months);
         data.put("memberCount",memberCount);
         return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS,data);
+    }
+
+    @GetMapping("/getSetmealReport")
+    public Result getSetmealReport(){
+        //从数据查数据
+        //返回数据格式为 setmealNames：["",""]
+        //            setmealCount:{["name":"value1","value":10...]}
+        List<Map<String,Object>> datemap =  setmealService.countSetmealOrder();
+        //存入数据
+        Map<String,Object> resultMap = new HashMap<>();
+        List<String> setmealNames = new ArrayList<>();
+        for (Map<String, Object> map : datemap) {
+            setmealNames.add((String) map.get("name"));
+        }
+        resultMap.put("setmealNames",setmealNames);
+        resultMap.put("setmealCount",datemap);
+        return new Result(true,MessageConstant.GET_SETMEAL_COUNT_REPORT_SUCCESS,resultMap);
     }
 
 }

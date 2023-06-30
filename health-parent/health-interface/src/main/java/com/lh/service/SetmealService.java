@@ -6,6 +6,7 @@ import com.lh.entity.Result;
 import com.lh.pojo.Setmeal;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SetmealService {
     Result addSetmeal(Setmeal setmeal,Integer[] checkgroupIds);
@@ -14,4 +15,6 @@ public interface SetmealService {
     List<Setmeal> getAll();
 
     Setmeal findById(Integer id);
+
+    List<Map<String, Object>> countSetmealOrder();
 }

@@ -94,6 +94,11 @@ public class SetmealServiceImpl implements SetmealService {
         return result;
     }
 
+    @Override
+    public List<Map<String, Object>> countSetmealOrder() {
+        return setmealDao.countSetmealOrder();
+    }
+
     public  void setSetmealAndCheckgroup(Integer setmealId,Integer[] checkgroupIds){
         if(checkgroupIds.length>0){
             Map<String,Integer> map = new HashMap<>();

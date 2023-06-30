@@ -51,4 +51,7 @@
     <select id="findById" resultMap="Setmeal" parameterType="integer">
         select * from t_setmeal where id = #{id}
     </select>
+    <select id="countSetmealOrder" resultType="java.util.Map">
+        select name,count(1) 'value' from t_order INNER JOIN t_setmeal ON setmeal_id = t_setmeal.id GROUP BY setmeal_id
+    </select>
 </mapper>
